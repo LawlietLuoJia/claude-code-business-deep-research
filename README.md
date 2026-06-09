@@ -2,67 +2,90 @@
 
 [中文文档](README_zh.md)
 
-A structured deep-research skill for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that produces evidence-backed business research reports with multi-source verification, explicit gap acknowledgment, and framework-driven analysis.
+A structured deep-research skill for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that guides LLM-powered research through a consulting-style methodology, producing structured reports with cited sources and acknowledged gaps.
 
-## The Problem
+## Background
 
-LLM search tools give you answers. Business decisions need evidence.
+When you need to research a business question — entering a new market, evaluating a competitor, assessing a technology trend — a single LLM search gives you a surface-level answer. The information might be useful, but it's not sufficient for decision-making.
 
-A quick lookup won't tell you whether a market is worth entering, how a competitor built their moat, or what regulatory risks lie ahead. Most research tools produce shallow summaries that look convincing but lack rigor — no cross-referencing, no gap acknowledgment, no structured methodology.
+The gaps are structural:
 
-**Business Deep Research applies management consulting methodology to LLM-powered research**, producing structured artifacts that withstand scrutiny.
+- **No methodology**: The LLM searches and summarizes, but doesn't follow a systematic process
+- **No cross-referencing**: Claims from one source aren't verified against others
+- **No gap tracking**: The output doesn't tell you what it couldn't find
+- **No structured output**: You get a wall of text, not documents you can share with stakeholders
 
-## What Makes This Different
+Business Deep Research addresses these by embedding a research methodology into the skill itself.
 
-### Five Research Lenses, Not One Workflow
+## How It Works
 
-The skill selects a framework based on the shape of your question — not a one-size-fits-all pipeline:
+The skill guides the LLM through a structured process modeled on management consulting research:
 
-| Research Shape | Framework | What It Produces |
+### Step 1: Scope the Research
+
+Before searching, the skill helps define:
+- The precise research question
+- The depth level needed (quick scan vs. full deep-dive)
+- Which research framework fits the question shape
+- What deliverables to produce
+
+### Step 2: Multi-Round Retrieval
+
+Instead of one search, the skill runs multiple retrieval rounds. Each round has a quality gate:
+
+- After round 1: Is the source pool sufficient to proceed?
+- After round 2: Does the evidence support the chosen framework's requirements?
+- After round 3: Are gaps identified before moving to synthesis?
+
+If a gate fails, the skill adjusts queries or flags limitations honestly.
+
+### Step 3: Framework-Driven Analysis
+
+The skill selects one of five research frameworks based on the question:
+
+| Question Shape | Framework | When to Use |
 |---|---|---|
-| How did we get here? What's the trajectory? | Evolution Lens | Historical arc, inflection points, path dependencies |
-| Who else does this? What's defensible? | Competitive Lens | Peer map, moat analysis, positioning matrix |
-| How big is the opportunity? What's the structure? | Market Lens | TAM/SAM, value chain, regulatory landscape |
-| What should we do? What are the options? | Consulting Framework | Issue tree, hypothesis testing, recommendation chain |
-| What are people saying? What patterns emerge? | Research Synthesis | Thematic analysis, sentiment clusters, gap map |
+| How did X evolve to its current state? | Evolution Lens | Understanding history, trajectory, path dependencies |
+| How does X compare to peers? | Competitive Lens | Peer analysis, moat evaluation, positioning |
+| What's the structure of X's market? | Market Lens | Market sizing, value chain, regulation, risk |
+| What should we do about X? | Consulting Framework | Decision memo, options analysis, recommendation |
+| What patterns exist in qualitative data? | Research Synthesis | Interview/survey/feedback analysis |
 
-### Multi-Round Retrieval with Quality Gates
+The framework determines what evidence to prioritize and how to structure the analysis. A second framework can be added if it addresses a distinct sub-question.
 
-Not "search once and write." The skill runs multiple retrieval rounds, each with explicit quality checks:
+### Step 4: Structured Output
 
-- **Gate 1**: Is the source pool sufficient for the chosen framework?
-- **Gate 2**: Does the evidence support the framework's prerequisites?
-- **Gate 3**: Are gaps explicitly acknowledged before synthesis?
+The skill produces four documents, not a single chat response:
 
-If a gate fails, the skill iterates — refining queries, expanding scope, or flagging limitations.
-
-### Explicit Gap Acknowledgment
-
-Every report includes a structured "Assumptions & Gaps" section. The skill doesn't pretend to know what it doesn't — it surfaces what's missing, what's uncertain, and what would need primary research to resolve.
-
-### Free Toolchain, No Vendor Lock-in
-
-Designed to work with freely available search tools. No paid API dependencies. The skill adapts its retrieval strategy to whatever search tools are available in your Claude Code environment.
-
-### Structured Artifacts, Not Chat Prose
-
-Outputs are structured documents, not conversational text:
-
-| Artifact | Purpose |
+| Document | Content |
 |----------|---------|
-| **Research Brief** | Scoping document — question, depth profile, constraints |
-| **Search Log** | Every query, every source, why it was included or excluded |
-| **Report** | Framework-driven analysis with inline citations |
-| **Assumptions & Gaps** | What we don't know, what we assumed, what needs validation |
+| **Research Brief** | Question, scope, depth level, chosen framework, constraints |
+| **Search Log** | Every query run, every source found, inclusion/exclusion rationale |
+| **Report** | Framework-driven analysis with inline citations to sources |
+| **Assumptions & Gaps** | What assumptions were made, what couldn't be verified, what needs primary research |
 
-### Chinese-First Writing Quality
+The "Assumptions & Gaps" section is particularly important: it tells you what the research *doesn't* know, so you can make informed decisions about what to trust and what to verify independently.
 
-Built-in `writing-style-cn.md` reference ensures Chinese reports read naturally — not machine-translated. English reports follow the same structural rigor.
+### Step 5: Review
+
+A quality check against the evaluation rubric before finalizing.
+
+## Design Decisions
+
+**Why framework-driven?** Without a framework, research tends to be unfocused — gathering information without a clear analytical structure. The framework keeps the research targeted and the output organized.
+
+**Why multiple retrieval rounds?** One search rarely surfaces sufficient evidence. Multiple rounds allow the skill to refine queries based on what it found (or didn't find) previously.
+
+**Why explicit gap acknowledgment?** LLMs tend to present findings with false confidence. Forcing the skill to document what it *doesn't* know counteracts this tendency and gives the reader honest context.
+
+**Why structured artifacts?** Research output often needs to be shared with stakeholders who weren't in the conversation. Structured documents are more useful than chat logs.
+
+**Free toolchain?** The skill uses whatever search tools are available in the Claude Code environment — no paid API dependencies. It adapts its retrieval strategy accordingly.
 
 ## Installation
 
 ```bash
-# Project-level (recommended — keeps research domain-scoped)
+# Project-level (recommended)
 cp -r . /your-project/.claude/skills/business-deep-research/
 
 # Global
@@ -78,46 +101,41 @@ Trigger phrases:
 deep research / competitive research / market analysis / business decision memo
 ```
 
-### Workflow
-
-1. **Scope** → Define question, select framework, set depth profile
-2. **Search** → Multi-round retrieval with quality gates at each stage
-3. **Analyze** → Apply chosen lens to structured evidence
-4. **Synthesize** → Write report with inline citations and gap analysis
-5. **Review** → Quality check against evaluation rubric
-
 ## Project Structure
 
 ```
 business-deep-research/
 ├── SKILL.md                          # Skill definition
 ├── agents/openai.yaml                # Agent configuration
-├── assets/templates/                 # 4 structured output templates
-│   ├── research-brief-template.md    #   Research scope document
-│   ├── search-log-template.md        #   Source audit trail
-│   ├── report-template.md            #   Framework-driven report
-│   └── assumptions-and-gaps-template.md  # Gap analysis
-├── evals/                            # Evaluation & quality rubrics
+├── assets/templates/                 # 4 output templates
+│   ├── research-brief-template.md
+│   ├── search-log-template.md
+│   ├── report-template.md
+│   └── assumptions-and-gaps-template.md
+├── evals/                            # Evaluation criteria
 │   ├── evals.json
 │   ├── evaluation-rubric.md
 │   └── baseline-pressure-notes.md
 ├── references/                       # 14 reference documents
-│   ├── framework-selector.md         #   Framework routing logic
-│   ├── competitive-lens.md           #   Competitive analysis methodology
-│   ├── market-lens.md                #   Market structure analysis
-│   ├── evolution-lens.md             #   Historical trajectory analysis
-│   ├── consulting-problem-solving.md #   Hypothesis-driven problem solving
-│   ├── research-synthesis-lens.md    #   Qualitative data synthesis
-│   ├── search-quality.md             #   Source quality assessment
-│   ├── strict-verification.md        #   Evidence verification protocol
-│   ├── retrieval-rounds.md           #   Multi-round search strategy
-│   ├── writing-style-cn.md           #   Chinese writing style guide
-│   └── ...                           #   + 4 more
-└── schemas/                          # 4 JSON schemas for structured data
-    ├── source.schema.json            #   Source metadata
-    ├── evidence.schema.json          #   Evidence structure
-    ├── claim.schema.json             #   Claim structure
-    └── run-manifest.schema.json      #   Research run metadata
+│   ├── framework-selector.md         # Framework routing logic
+│   ├── competitive-lens.md
+│   ├── market-lens.md
+│   ├── evolution-lens.md
+│   ├── consulting-problem-solving.md
+│   ├── research-synthesis-lens.md
+│   ├── search-quality.md
+│   ├── strict-verification.md
+│   ├── retrieval-rounds.md
+│   ├── writing-style-cn.md           # Chinese writing quality
+│   ├── depth-profile.md
+│   ├── output-contract.md
+│   ├── runtime-adapters.md
+│   └── long-report.md
+└── schemas/                          # 4 JSON schemas
+    ├── source.schema.json
+    ├── evidence.schema.json
+    ├── claim.schema.json
+    └── run-manifest.schema.json
 ```
 
 ## License
