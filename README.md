@@ -1,5 +1,7 @@
 # Business Deep Research — Claude Code Skill
 
+[中文文档](README_zh.md)
+
 A structured deep-research skill for [Claude Code](https://docs.anthropic.com/en/docs/claude-code) that produces evidence-backed business research reports with multi-source verification, explicit gaps, and framework-driven analysis.
 
 Built for commercial due diligence, competitive analysis, market research, and decision memos that go beyond a quick lookup.
