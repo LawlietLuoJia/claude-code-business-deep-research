@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Business Deep Research Evidence",
+  "type": "object",
+  "required": ["evidence_id", "source_id", "subquestion", "evidence_type", "locator", "supports", "confidence"],
+  "properties": {
+    "evidence_id": { "type": "string" },
+    "source_id": { "type": "string" },
+    "subquestion": { "type": "string" },
+    "evidence_type": { "type": "string", "enum": ["quote", "fact", "metric", "observation"] },
+    "excerpt": { "type": ["string", "null"] },
+    "locator": { "type": "string" },
+    "supports": { "type": "string" },
+    "confidence": { "type": "string", "enum": ["high", "medium", "low"] },
+    "note": { "type": ["string", "null"] }
+  },
+  "additionalProperties": true
+}

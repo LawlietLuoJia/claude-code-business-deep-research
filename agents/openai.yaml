@@ -1,0 +1,4 @@
+interface:
+  display_name: "Business Deep Research"
+  short_description: "Run evidence-led commercial deep research"
+  default_prompt: "Use $business-deep-research to turn the user's business research question into an evidence-led report and evidence pack."

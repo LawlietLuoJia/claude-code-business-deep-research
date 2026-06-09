@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Business Deep Research Claim",
+  "type": "object",
+  "required": ["claim_id", "claim_type", "text", "support_status"],
+  "properties": {
+    "claim_id": { "type": "string" },
+    "claim_type": { "type": "string", "enum": ["factual", "synthesis", "recommendation", "speculation"] },
+    "text": { "type": "string" },
+    "source_ids": { "type": "array", "items": { "type": "string" } },
+    "evidence_ids": { "type": "array", "items": { "type": "string" } },
+    "support_status": { "type": "string", "enum": ["supported", "partial", "gap", "contradicted", "needs_review"] },
+    "note": { "type": ["string", "null"] }
+  },
+  "additionalProperties": true
+}

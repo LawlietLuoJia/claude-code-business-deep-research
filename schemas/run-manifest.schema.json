@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Business Deep Research Run Manifest",
+  "type": "object",
+  "required": ["topic", "created_at", "gate_status", "artifacts"],
+  "properties": {
+    "topic": { "type": "string" },
+    "created_at": { "type": "string" },
+    "decision_context": { "type": ["string", "null"] },
+    "gate_status": { "type": "object" },
+    "scope": { "type": "object" },
+    "selected_lenses": { "type": "object" },
+    "artifacts": { "type": "object" },
+    "search_routes": { "type": "object" },
+    "strict_mode": { "type": "boolean" },
+    "continuation": { "type": ["object", "null"] }
+  },
+  "additionalProperties": true
+}

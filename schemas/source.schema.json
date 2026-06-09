@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Business Deep Research Source",
+  "type": "object",
+  "required": ["source_id", "url", "title", "publisher", "accessed_at", "source_type", "authority_reason"],
+  "properties": {
+    "source_id": { "type": "string" },
+    "url": { "type": "string" },
+    "title": { "type": "string" },
+    "publisher": { "type": "string" },
+    "published_at": { "type": ["string", "null"] },
+    "accessed_at": { "type": "string" },
+    "source_type": { "type": "string", "enum": ["primary", "secondary", "lead"] },
+    "authority_reason": { "type": "string" },
+    "bias_or_limit": { "type": ["string", "null"] }
+  },
+  "additionalProperties": true
+}

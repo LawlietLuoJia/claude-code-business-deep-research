@@ -1,0 +1,30 @@
+{
+  "skill_name": "business-deep-research",
+  "evals": [
+    {
+      "id": "company-evolution",
+      "prompt": "研究一下 Cursor 从产品诞生到现在为什么能在 AI 编程工具中快速占位，重点回答它的关键决策、当前竞争位置、风险和下一步判断。先不要急着写长报告。",
+      "expected_output": "Frames a scoped commercial research run, proposes a Gate 1 brief before report drafting, and signals the evolution lens plus evidence package.",
+      "files": []
+    },
+    {
+      "id": "competitive-landscape",
+      "prompt": "帮我做中国企业级知识库问答产品的竞品深度研究，比较 Dify、FastGPT、RAGFlow 和主流云厂商方案，给产品负责人做判断。",
+      "expected_output": "Defines peer set, decision context, search plan and evidence requirements before a competitor report; avoids a slide-first shortcut.",
+      "files": []
+    },
+    {
+      "id": "market-opportunity",
+      "prompt": "研究 2026 年中国银行业对公 CRM 智能化的商业机会，结论要能支持我们判断哪些场景值得先做，公开资料不充分的地方要说清楚。",
+      "expected_output": "Uses market and consulting lenses with explicit weak-data handling, Chinese source routing, and evidence/gap accounting.",
+      "files": []
+    },
+    {
+      "id": "technical-policy-english",
+      "prompt": "Deep research the EU AI Act obligations that matter to a B2B AI workflow vendor entering Europe. I need a business decision memo, not a legal treatise.",
+      "expected_output": "Frames a business-oriented technical/policy study, prefers primary legal and regulator sources, and separates factual obligations from commercial implications.",
+      "files": []
+    }
+  ]
+}
+
